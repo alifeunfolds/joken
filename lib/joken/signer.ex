@@ -188,7 +188,7 @@ defmodule Joken.Signer do
     catch
       :error, cause ->
         Logger.warn fn -> "Error: #{inspect cause}" end
-        %{t | error: "Could not verify token"}
+        %{t | error: %{reason: "Could not verify token"}}
     end
   end
 
@@ -224,14 +224,14 @@ defmodule Joken.Signer do
     catch
       _, cause ->
         Logger.warn fn -> "Error: #{inspect cause}" end
-        %{t | error: "Invalid payload"}
+        %{t | error: cause.message}
     end
   end
 
   defp validate_key(map_payload, key, valid?, acc) do
     case (Map.has_key? map_payload, key) and valid?.(map_payload[key]) do
       false ->
-        raise ArgumentError
+        raise ArgumentError, message: %{key: key, reason: "missing or invalid #{key}"}
       true ->
         [{key, map_payload[key]} | acc]
     end
