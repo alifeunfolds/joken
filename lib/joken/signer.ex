@@ -193,7 +193,7 @@ defmodule Joken.Signer do
   end
 
   defp decode_payload(%Token{json_module: nil}, _),
-    do: raise(ArgumentError, message: "No JSON module defined")
+    do: raise(ArgumentError, message: %{reason: "No JSON module defined"})
   defp decode_payload(%Token{json_module: :jsx}, payload)
     when is_binary(payload) do
     :jsx.decode payload, [:return_maps]
