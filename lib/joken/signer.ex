@@ -183,7 +183,7 @@ defmodule Joken.Signer do
           header = jws |> Map.drop(["alg", "typ"])
           validate_all_claims(t, header, map_payload, options)
         _ ->
-          %{t | error: "Invalid signature"}
+          %{t | error: %{reason: "Invalid signature"}}
       end
     catch
       :error, cause ->
