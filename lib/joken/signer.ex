@@ -163,7 +163,7 @@ defmodule Joken.Signer do
 
   ### PRIVATE
   defp do_verify(t = %Token{token: nil}, _signer, _options),
-    do: %{t | error: "No compact token set for verification"}
+    do: %{t | error: %{reason: "No compact token set for verification"}}
   defp do_verify(t = %Token{token: token},
                  s = %Signer{jwk: jwk, jws: %{"alg" => algorithm}},
                  options) do
